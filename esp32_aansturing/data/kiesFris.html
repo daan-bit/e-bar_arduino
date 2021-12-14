@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
+    <title>E-bar</title>
+</head>
+<body class="body">
+    <main class="main">
+        <div class="main__overlay"></div>
+        <article class="main__article">
+            <div class="main__maakKeuze" id="error">Maak een keuze</div>
+
+            <section class="article__keuzeTitleWrapper">
+                <h2 class="keuzeTitleWrapper__keuzeTitle">Kies uw frisdrank</h2>
+            </section>
+
+            <ul class="main__list">
+                <li class="list__listItem" onclick="changeBg(this)">
+                    <div class="listItem__overlay"></div>
+                    <section class="listItem__content">
+                        <div class="listItem__logo">
+                            <figure class="logo__figure">
+                                <img src="./img/cola.png" alt="Logo cola" class="figure__img">
+                            </figure>
+                        </div>
+                        <h2 class="listItem__text">Cola</h2>
+                    </section>
+                    
+                </li>
+                <li class="list__listItem" onclick="changeBg(this)">
+                    <div class="listItem__overlay"></div>
+                    <section class="listItem__content">
+                        <div class="listItem__logo">
+                            <figure class="logo__figure">
+                                <img src="./img/fanta.png" alt="Logo fanta" class="figure__img">
+                            </figure>
+                        </div>
+                        <h2 class="listItem__text">Sinas</h2>
+                    </section>
+                    
+                </li>            
+            </ul>
+
+            <footer class="main__optionMenu">
+                <section class="optionMenu__buttonContainer fris">
+                    <button class="buttonContainer__button ghost"  onclick="location.href='kiesDrank'">Vorige</button>
+                    <button class="buttonContainer__button klaar" onclick="check('fris')">Klaar</button>
+                    
+                </section>
+            </footer>
+        </article>
+
+       
+    </main>
+    
+</body>
+</html>

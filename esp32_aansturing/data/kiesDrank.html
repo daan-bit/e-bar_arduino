@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
+    <title>E-bar</title>
+</head>
+<body class="body">
+    <main class="main">
+        <div class="main__overlay"></div>
+        <article class="main__article">
+            <div class="main__maakKeuze" id="error">Maak een keuze</div>
+
+            <section class="article__keuzeTitleWrapper">
+                <h2 class="keuzeTitleWrapper__keuzeTitle">Kies uw drank</h2>
+            </section>
+
+            <ul class="main__list">
+                <li class="list__listItem" onclick="changeBg(this)">
+                    <div class="listItem__overlay"></div>
+                    <section class="listItem__content">
+                        <div class="listItem__logo">
+                            <figure class="logo__figure">
+                                <img src="./img/bacardi.png" alt="Logo bacardi" class="figure__img">
+                            </figure>
+                        </div>
+                        <h2 class="listItem__text">Bacardi</h2>
+                    </section>
+                    
+                </li>
+                <li class="list__listItem" onclick="changeBg(this)">
+                    <div class="listItem__overlay"></div>
+                    <section class="listItem__content">
+                        <div class="listItem__logo">
+                            <figure class="logo__figure">
+                                <img src="./img/vodka.png" alt="Logo vodka absolut" class="figure__img">
+                            </figure>
+                        </div>
+                        <h2 class="listItem__text">Vodka</h2>
+                    </section>
+                    
+                </li>
+                <li class="list__listItem" onclick="changeBg(this)">
+                    <div class="listItem__overlay"></div>
+                    <section class="listItem__content">
+                        <div class="listItem__logo">
+                            <figure class="logo__figure">
+                                <img src="./img/malibu.png" alt="Logo malibu" class="figure__img figure__img--malibu">
+                            </figure>
+                        </div>
+                        <h2 class="listItem__text">Malibu</h2>
+                    </section>
+                    
+                </li>
+                <li class="list__listItem" onclick="changeBg(this)">
+                    <div class="listItem__overlay"></div>
+                    <section class="listItem__content">
+                        <div class="listItem__logo">
+                            <figure class="logo__figure">
+                                <img src="./img/rocket.png" alt="Logo rocket shot" class="figure__img">
+                            </figure>
+                        </div>
+                        <h2 class="listItem__text">Rocket S.</h2>
+                    </section>
+                    
+                </li>
+            </ul>
+
+            <footer class="main__optionMenu">
+                <section class="optionMenu__buttonContainer fris">
+                    <button class="buttonContainer__button ghost"  onclick="location.href='keuzeMenu'">Vorige</button>
+                    <button class="buttonContainer__button" onclick="check('drank')">Volgende</button>
+                </section>
+            </footer>
+        </article>
+
+       
+    </main>
+    
+</body>
+</html>

@@ -1,0 +1,439 @@
+*, *::before, *::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 62.5%;
+}
+
+.body{
+    height: 100vh;
+    width: 100%;
+    font-family: 'Raleway', sans-serif;
+    color: #eee;
+    font-size: 1.8rem;
+}
+
+:root {
+    --fill: rgba(238, 238, 238, 0.4);
+}
+
+button{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+}
+
+.main{
+    width: 100%;
+    height: 100%;
+    background-image: url("./img/achtergrond.jpg");
+    background-position: center;
+    background-size: cover;
+    position: relative;
+}
+
+.main__maakKeuze{
+    width: 100%;
+    height: 15rem;
+    background-color: #EF233C;
+    position: absolute;
+    border-bottom-left-radius: 3.5rem;
+    border-bottom-right-radius: 3.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3.5rem;
+    z-index: 1;
+    transform: translateY(-15rem);
+    transition: 1s all;
+}
+
+.main__overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #202020;
+    opacity: 0.4;
+}
+
+.main__contentWrapper{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+
+.contentWrapper__title{
+    font-size: 6rem;
+    font-weight: 400;
+}
+
+
+
+
+
+/* Pagina drank kiezen */
+.main__article{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.article__keuzeTitleWrapper{
+    height: 8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.keuzeTitleWrapper__keuzeTitle{
+    font-weight: 400;
+    font-size: 3.5rem;
+    margin-top: 1rem;
+}
+
+.main__list{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+    flex-direction: column;
+    list-style-type: none;
+    margin-top: 2rem;
+}
+
+.list__listItem{
+    width: 90%;
+    height: 10rem;
+    position: relative;
+    animation-name: fade-in;
+    animation-duration: 2s;
+}
+
+.listItem__overlay{
+    width: 100%;
+    height: 100%;
+    background-color: #202020;
+    position: absolute;
+    opacity: 0.6;
+}
+
+.listItem__content{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+}
+
+.listItem__logo{
+    height: 100%;
+    width:25%;
+}
+
+.logo__figure{
+    width: 100%;
+    height: 100%;
+    padding: 0.8rem;
+}
+
+.figure__img{
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
+    filter: drop-shadow(grey 0.2rem 0.4rem 0.8rem);
+}
+
+.listItem__text{
+    font-weight: 400;
+    font-size: 3.5rem;
+}
+
+.main__optionMenu{
+    height: 8rem;
+    width: 100%;
+    background-color: #202020;
+    bottom: 0;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+}
+
+.optionMenu__buttonContainer{
+    width: 90%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.buttonContainer__button{
+    padding: 1.2rem 2.5rem;
+    font-size: 1.8rem;
+    background-color: #73377E;
+    color: #eee;
+    border-style: none;
+}
+
+.buttonContainer__button:active{
+    background-color: #9e4cad;
+}
+
+
+
+
+
+/* pagina frisdrank kiezen */
+
+.fris{
+    justify-content: space-between;
+}
+
+.shot{
+    justify-content: flex-end;
+}
+
+.ghost{
+    border: 0.2rem solid #73377E;
+    box-shadow: inset 0px 0px 0px 0.1rem #73377E;
+    box-sizing: border-box;
+    background-color: transparent;
+}
+
+.klaar{
+    background-color: #16DB65;
+    padding: 1.2rem 2.8rem;
+}
+
+.klaar:active{
+    background-color: #48ed8a;
+}
+
+
+
+
+
+
+/* pagina laden */
+.body--laden{
+    height: 100vh;
+    width: 100%;
+    font-family: 'Raleway', sans-serif;
+    color: #eee;
+    font-size: 1.8rem;
+    background-image: url("./img/achtergrond.jpg");
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.body__overlay--laden{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #202020;
+    opacity: 0.4;
+}
+
+.body__box{
+    width:200px;
+    height:200px;
+    border:10px solid #ccc;
+    border-radius:10px;
+    line-height:200px;
+    text-align:center;
+    color:#ddd;
+    font-size:25px;
+    font-weight:600;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .body__box:before {
+    content:"";
+    position:absolute;
+    width:400px;
+    height:400px;
+    background:var(--fill);
+    left:50%;
+    transform:translateX(-50%);
+    border-radius:40%;
+    animation:fill 6s ease-in-out infinite;
+    z-index:1;
+    filter: opacity(0.9);
+  }
+
+
+
+  @keyframes fade-in{
+    0%{
+        opacity: 0;
+        transform: translateY(-40%);
+    }
+    75%{
+        transform: translateY(0%);
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+
+  @keyframes error{
+      0%{
+          transform: translateY(-15rem);
+      }
+      100%{
+          transform: translateY(0rem);
+      }
+  }
+
+  @keyframes fill {
+    from {
+      top:250px;
+      transform:translateX(-50%) rotate(0deg);
+    }
+    to {
+      top:-50px;
+      transform:translateX(-50%) rotate(360deg);
+    }
+}
+
+
+/* pagina foutmelding */
+
+.main-foutmelding{
+    width: 100%;
+    height: 100%;
+    background-color: #EF233C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.main-foutmelding__kruis{
+    font-size: 15rem;
+    font-weight: 900;
+}
+
+.main-foutmelding__content{
+    font-size: 2rem;
+    margin: 0 2rem;
+    text-align: center;
+}
+
+
+/* pagina afgehandeld */
+
+.main-afgehandeld{
+    background-color: #16DB65;
+}
+
+
+.vinkje-list__item:before {
+    content: '\2713';
+    display: inline-block;
+    color: #eee;
+    padding: 0 6px 0 0;
+    font-size: 20rem;
+    font-weight: 800;
+}
+
+.vinkje-list__item{
+    list-style-type: none;
+    font-size: 1em;
+}
+
+.main-afgehandeld__content{
+    font-size: 2rem;
+    margin: 0 2rem;
+    text-align: center;
+}
+
+
+/* pagina mixdrank */
+
+.main--mix{
+    background-attachment: fixed;
+    height: auto;
+}
+
+.main__optionMenu--mix{
+    position: fixed;
+}
+
+.main__list--mix{
+    padding-bottom: 10rem;
+}
+
+.list__listItem--mix{
+    height: 35rem;
+}
+
+.listItem__logoWrapper{
+    height: 25rem;
+    margin: 1rem;
+    position: relative;
+}
+
+.logoWrapper__logo{
+    width: 55%;
+    height: 100%; 
+    position: absolute;
+}
+
+.logoWrapper__logo:nth-of-type(1){
+    transform: translate(15%, -10%);
+}
+
+.logoWrapper__logo:nth-of-type(2){
+     transform: translate(70%, 10%);
+}
+
+.listItem__textWrapper{
+    position: relative;
+    width: 100%;
+    height: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 3rem;
+}
+
+/* pagina keuzemenu */
+.main--keuzeMenu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.main--keuzeMenu__buttonContainer{
+    width: 85%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.buttonContainer__button--keuzeMenu{
+    width: 100%;
+    font-size: 2rem;
+    height: 6rem;
+}
+
