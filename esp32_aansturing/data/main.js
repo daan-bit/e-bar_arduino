@@ -32,10 +32,20 @@ function check(pagina){
             window.location = "kiesFris";
         }else if(pagina == 'shot'){
             localStorage.setItem("fris", "");
+
+            doSend(localStorage.getItem("drank").substring(0,2));
+
             window.location = "laden";
+
+             
         }
         else{
+            doSend(localStorage.getItem("drank").substring(0,2));
+            doSend(localStorage.getItem("fris").substring(0,2)); 
+
             window.location = "laden";
+
+            
         }
         
     }else{
@@ -87,4 +97,63 @@ function changeText(){
         box.style.setProperty('--fill', '#202020');
     }   
     
+}
+
+
+//##########################################################################
+//##########################################################################
+//##########################################################################
+
+const url = "ws://192.168.4.1:1337/";
+
+window.addEventListener('load', (event)=> {
+    console.log("onload");
+    wsConnect(url);
+});
+
+function wsConnect(url){
+
+    websocket = new WebSocket(url);
+    
+    websocket.onopen = function(evt) { onOpen(evt) };
+    websocket.onclose = function(evt) { onClose(evt) };
+    websocket.onmessage = function(evt) { onMessage(evt) };
+    websocket.onerror = function(evt) { onError(evt) };
+}
+
+function onOpen(evt) {
+    console.log("Connected");
+}
+
+function onClose(evt) {
+    console.log("Disconnected");
+     
+    // Try to reconnect after a few seconds
+    setTimeout(function() { wsConnect(url) }, 2000);
+}
+
+function onMessage(evt) {
+
+    // Print out our received message
+    console.log("Received: " + evt.data);
+    
+    // Update circle graphic with LED state
+    switch(evt.data) {
+        case "0":
+            console.log("Naar afgehandeld pagina");
+        case "1":
+            console.log("Naar foutmelding pagina");
+        default:
+            break;
+    }
+}
+
+// Called when a WebSocket error occurs
+function onError(evt) {
+    console.log("ERROR: " + evt.data);
+}
+
+function doSend(message) {
+    console.log("Sending: " + message);
+    websocket.send(message);
 }

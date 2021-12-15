@@ -49,23 +49,23 @@ void onWebSocketEvent(uint8_t client_num,WStype_t type,uint8_t * payload, size_t
       // Print out raw message
       Serial.printf("[%u] Received text: %s\n", client_num, payload);
 
-      // Toggle LED
-      if ( strcmp((char *)payload, "toggleLED") == 0 ) {
-        led_state = led_state ? 0 : 1;
-        Serial.printf("Toggling LED to %u\n", led_state);
-        digitalWrite(led_pin, led_state);
-
-      // Report the state of the LED
-      } else if ( strcmp((char *)payload, "getLEDState") == 0 ) {
-        sprintf(msg_buf, "%d", led_state);
-        Serial.printf("Sending to [%u]: %s\n", client_num, msg_buf);
-        webSocket.sendTXT(client_num, msg_buf);
-
-      // Message not recognized
-      } else {
-        Serial.println("[%u] Message not recognized");
-      }
-      break;
+//      if ( strcmp((char *)payload, "toggleLED") == 0 ) {
+//      // Toggle LED
+//        led_state = led_state ? 0 : 1;
+//        Serial.printf("Toggling LED to %u\n", led_state);
+//        digitalWrite(led_pin, led_state);
+//
+//      // Report the state of the LED
+//      } else if ( strcmp((char *)payload, "getLEDState") == 0 ) {
+//        sprintf(msg_buf, "%d", led_state);
+//        Serial.printf("Sending to [%u]: %s\n", client_num, msg_buf);
+//        webSocket.sendTXT(client_num, msg_buf);
+//
+//      // Message not recognized
+//      } else {
+//        Serial.println("[%u] Message not recognized");
+//      }
+//      break;
 
     // For everything else: do nothing
     case WStype_BIN:
@@ -79,8 +79,9 @@ void onWebSocketEvent(uint8_t client_num,WStype_t type,uint8_t * payload, size_t
   }
 }
 
-// #############################################################################
 // ophalen webpagina's 
+// #############################################################################
+
 void onIndexRequest(AsyncWebServerRequest *request) {
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
@@ -144,8 +145,9 @@ void onKiesShotRequest(AsyncWebServerRequest *request){
   request->send(SPIFFS, "/kiesShot.html", "text/html");
 }
 
-// #############################################################################
 // Ophalen css / js / afbeeldingen
+// #############################################################################
+
 void onCSSRequest(AsyncWebServerRequest *request) {
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
@@ -222,10 +224,6 @@ void onPageNotFound(AsyncWebServerRequest *request) {
  */
 
 void setup() {
-  // Init LED and turn off
-  pinMode(led_pin, OUTPUT);
-  digitalWrite(led_pin, LOW);
-
   // Start Serial port
   Serial.begin(115200);
 
@@ -274,7 +272,7 @@ void setup() {
 
   // Start WebSocket server and assign callback
   webSocket.begin();
-  webSocket.onEvent(onWebSocketEvent);
+  webSocket.onEvent(onWebSocketEvent);  
   
 }
 
