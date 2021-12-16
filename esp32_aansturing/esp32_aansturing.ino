@@ -2,6 +2,7 @@
 #include <SPIFFS.h>
 #include <ESPAsyncWebServer.h>
 #include <WebSocketsServer.h>
+#include <ArduinoJson.h>
 
 // Constants
 const char *ssid = "e-bar";
@@ -11,7 +12,12 @@ const char *msg_get_led = "getLEDState";
 const int dns_port = 53;
 const int http_port = 80;
 const int ws_port = 1337;
-const int led_pin = 15;
+
+String drink = "";
+String soda = "";
+
+
+DynamicJsonDocument doc(512);
 
 // Globals
 AsyncWebServer server(80);
@@ -48,6 +54,20 @@ void onWebSocketEvent(uint8_t client_num,WStype_t type,uint8_t * payload, size_t
 
       // Print out raw message
       Serial.printf("[%u] Received text: %s\n", client_num, payload);
+
+      deserializeJson(doc, payload);
+      serializeJson(doc, Serial);
+
+      Serial.print("Drink: ");
+      drink = doc["drink"].as<const char *>();
+      Serial.println(drink);
+      //Serial.println(doc["drink"].as<const char *>());
+
+      Serial.print("Soda: ");
+      soda = doc["soda"].as<const char *>();
+      Serial.println(soda);
+      //Serial.println(doc["drink"].as<const char *>());
+      
 
 //      if ( strcmp((char *)payload, "toggleLED") == 0 ) {
 //      // Toggle LED

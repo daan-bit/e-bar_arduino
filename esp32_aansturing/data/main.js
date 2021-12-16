@@ -33,15 +33,20 @@ function check(pagina){
         }else if(pagina == 'shot'){
             localStorage.setItem("fris", "");
 
-            doSend(localStorage.getItem("drank").substring(0,2));
+            let drink = localStorage.getItem("drank").substring(0,2);
+            let soda = localStorage.getItem("fris").substring(0,2);
+
+            doSend(JSON.stringify({drink: drink, soda: soda}));
 
             window.location = "laden";
 
              
         }
         else{
-            doSend(localStorage.getItem("drank").substring(0,2));
-            doSend(localStorage.getItem("fris").substring(0,2)); 
+            let drink = localStorage.getItem("drank").substring(0,2);
+            let soda = localStorage.getItem("fris").substring(0,2);
+
+            doSend(JSON.stringify({drink: drink, soda: soda}));
 
             window.location = "laden";
 
@@ -107,7 +112,6 @@ function changeText(){
 const url = "ws://192.168.4.1:1337/";
 
 window.addEventListener('load', (event)=> {
-    console.log("onload");
     wsConnect(url);
 });
 
