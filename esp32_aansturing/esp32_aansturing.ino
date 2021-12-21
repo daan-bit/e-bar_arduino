@@ -15,6 +15,10 @@ const int ws_port = 1337;
 
 String drink = "";
 String soda = "";
+String device = "";
+String inhoud = "";
+
+boolean aanwezig = false;
 
 
 DynamicJsonDocument doc(512);
@@ -53,39 +57,55 @@ void onWebSocketEvent(uint8_t client_num,WStype_t type,uint8_t * payload, size_t
     case WStype_TEXT:
 
       // Print out raw message
-      Serial.printf("[%u] Received text: %s\n", client_num, payload);
+      //Serial.printf("[%u] Received text: %s\n", client_num, payload);
 
       deserializeJson(doc, payload);
-      serializeJson(doc, Serial);
+      //serializeJson(doc, Serial); print naar serieel (test)
 
-      Serial.print("Drink: ");
-      drink = doc["drink"].as<const char *>();
-      Serial.println(drink);
-      //Serial.println(doc["drink"].as<const char *>());
+      device = doc["device"].as<const char *>();
+      Serial.println("Device: ");
+      Serial.println(device);
 
-      Serial.print("Soda: ");
-      soda = doc["soda"].as<const char *>();
-      Serial.println(soda);
-      //Serial.println(doc["drink"].as<const char *>());
+      //Als de raspberry pi een bericht stuurt
+      if(strcmp(device.c_str(), "raspberry") == 0){
+        inhoud = doc["inhoud"].as<const char *>();
+        Serial.println("Inhoud in ml: ");
+        Serial.println(inhoud);
+        aanwezig = true;
+        String redirect = "redirect";
+        webSocket.sendTXT(client_num, redirect.c_str());
+      }
+      //Als de interface een bericht stuurt
+      else if (strcmp(device.c_str(), "web") == 0){
+        if(aanwezig == true){
+          Serial.print("Drink: ");
+          drink = doc["drink"].as<const char *>();
+          Serial.println(drink);
+    
+          Serial.print("Soda: ");
+          soda = doc["soda"].as<const char *>();
+          Serial.println(soda);
+          
+        }else{
+          Serial.println("Zet eerst een glas neer");
+        }
+        
+      }else if (strcmp(device.c_str(), "shot") == 0){
+        if(aanwezig == true){
+          Serial.println("Dit is een shotje");
+    
+          Serial.print("Soda: ");
+          soda = doc["soda"].as<const char *>();
+          Serial.println(soda);
+          
+        }else{
+          Serial.println("Zet eerst een glas neer");
+        }
+      }
+
       
-
-//      if ( strcmp((char *)payload, "toggleLED") == 0 ) {
-//      // Toggle LED
-//        led_state = led_state ? 0 : 1;
-//        Serial.printf("Toggling LED to %u\n", led_state);
-//        digitalWrite(led_pin, led_state);
-//
-//      // Report the state of the LED
-//      } else if ( strcmp((char *)payload, "getLEDState") == 0 ) {
-//        sprintf(msg_buf, "%d", led_state);
-//        Serial.printf("Sending to [%u]: %s\n", client_num, msg_buf);
-//        webSocket.sendTXT(client_num, msg_buf);
-//
-//      // Message not recognized
-//      } else {
-//        Serial.println("[%u] Message not recognized");
-//      }
-//      break;
+      
+      break;
 
     // For everything else: do nothing
     case WStype_BIN:
@@ -163,6 +183,13 @@ void onKiesShotRequest(AsyncWebServerRequest *request){
   Serial.println("[" + remote_ip.toString() +
                   "] [ks] HTTP GET request of " + request->url());
   request->send(SPIFFS, "/kiesShot.html", "text/html");
+}
+
+void onPiRequest(AsyncWebServerRequest *request){
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] [ks] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/pi.html", "text/html");
 }
 
 // Ophalen css / js / afbeeldingen
@@ -272,6 +299,7 @@ void setup() {
   server.on("/afgehandeld", HTTP_GET, onAfgehandeldRequest);
   server.on("/foutmelding", HTTP_GET, onFoutmeldingRequest);
   server.on("/kiesShot", HTTP_GET, onKiesShotRequest);
+  server.on("/pi", HTTP_GET, onPiRequest);
 
   // Ophalen css / js / afbeeldingen
   server.on("/style.css", HTTP_GET, onCSSRequest);

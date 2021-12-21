@@ -36,7 +36,7 @@ function check(pagina){
             let drink = localStorage.getItem("drank").substring(0,2);
             let soda = localStorage.getItem("fris").substring(0,2);
 
-            doSend(JSON.stringify({drink: drink, soda: soda}));
+            doSend(JSON.stringify({device: "shot", drink: drink, soda: soda}));
 
             window.location = "laden";
 
@@ -46,7 +46,7 @@ function check(pagina){
             let drink = localStorage.getItem("drank").substring(0,2);
             let soda = localStorage.getItem("fris").substring(0,2);
 
-            doSend(JSON.stringify({drink: drink, soda: soda}));
+            doSend(JSON.stringify({device: "web", drink: drink, soda: soda}));
 
             window.location = "laden";
 
@@ -147,6 +147,8 @@ function onMessage(evt) {
             console.log("Naar afgehandeld pagina");
         case "1":
             console.log("Naar foutmelding pagina");
+        case "redirect":
+            window.location = "/keuzeMenu";
         default:
             break;
     }
@@ -160,4 +162,13 @@ function onError(evt) {
 function doSend(message) {
     console.log("Sending: " + message);
     websocket.send(message);
+}
+
+
+//###################################################################
+//###################################################################
+
+function raspberry(){
+    console.log("Verstuur raspberry pi");
+    doSend(JSON.stringify({device: "raspberry", inhoud: "250"}));
 }
