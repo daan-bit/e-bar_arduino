@@ -4,7 +4,6 @@
 #include <WebSocketsServer.h>
 #include <ArduinoJson.h>
 
-// Constants
 const char *ssid = "e-bar";
 const char *password =  "123456789";
 const char *msg_toggle_led = "toggleLED";
@@ -23,7 +22,6 @@ boolean aanwezig = false;
 
 DynamicJsonDocument doc(512);
 
-// Globals
 AsyncWebServer server(80);
 WebSocketsServer webSocket = WebSocketsServer(1337);
 char msg_buf[10];
@@ -33,18 +31,18 @@ int led_state = 0;
  * Functions
  */
 
-// Callback: receiving any WebSocket message
+// Callback functies
 void onWebSocketEvent(uint8_t client_num,WStype_t type,uint8_t * payload, size_t length){
 
-  // Figure out the type of WebSocket event
+  // Bekijkt type inkomend bericht
   switch(type) {
 
-    // Client has disconnected
+    // Client disconnect
     case WStype_DISCONNECTED:
       Serial.printf("[%u] Disconnected!\n", client_num);
       break;
 
-    // New client has connected
+    // Client connect
     case WStype_CONNECTED:
       {
         IPAddress ip = webSocket.remoteIP(client_num);
@@ -53,15 +51,16 @@ void onWebSocketEvent(uint8_t client_num,WStype_t type,uint8_t * payload, size_t
       }
       break;
 
-    // Handle text messages from client
+    // Inkomend bericht van client
     case WStype_TEXT:
 
-      // Print out raw message
-      //Serial.printf("[%u] Received text: %s\n", client_num, payload);
+      // Print inkomend bericht
+      Serial.printf("[%u] Received text: %s\n", client_num, payload);
 
       deserializeJson(doc, payload);
       //serializeJson(doc, Serial); print naar serieel (test)
 
+      //Haalt device op, zet in variabele en print deze uit
       device = doc["device"].as<const char *>();
       Serial.println("Device: ");
       Serial.println(device);
@@ -70,14 +69,18 @@ void onWebSocketEvent(uint8_t client_num,WStype_t type,uint8_t * payload, size_t
       if(strcmp(device.c_str(), "raspberry") == 0){
         inhoud = doc["inhoud"].as<const char *>();
         Serial.println("Inhoud in ml: ");
+        //Doorgegeven inhoud van glas wordt in variabele gezet
         Serial.println(inhoud);
+        //Geeft seintje aan ESP dat hij door kan naar keuzeMenu pagina
         aanwezig = true;
         String redirect = "redirect";
         webSocket.sendTXT(client_num, redirect.c_str());
       }
-      //Als de interface een bericht stuurt
+      //Als de interface een bericht stuurt - mixdrank
       else if (strcmp(device.c_str(), "web") == 0){
+        //Kijkt of er een glas aanwezig is
         if(aanwezig == true){
+          //Zet drank en frisdrank in variabele en print die.
           Serial.print("Drink: ");
           drink = doc["drink"].as<const char *>();
           Serial.println(drink);
@@ -85,20 +88,34 @@ void onWebSocketEvent(uint8_t client_num,WStype_t type,uint8_t * payload, size_t
           Serial.print("Soda: ");
           soda = doc["soda"].as<const char *>();
           Serial.println(soda);
+
+          //##################################
+          //Hier komt de code voor het inschenken van een mixdrankje
+          //##################################
           
         }else{
+          //Als er geen glas staat - foutmelding.
+          //Moet in eerste instantie niet op deze pagina kunnen komen, maar als soort extra beveiliging
           Serial.println("Zet eerst een glas neer");
         }
-        
+
+       //Als interface bericht stuurt - shot
       }else if (strcmp(device.c_str(), "shot") == 0){
         if(aanwezig == true){
           Serial.println("Dit is een shotje");
-    
+
+          //Zet drank in variabele en print die
           Serial.print("Soda: ");
           soda = doc["soda"].as<const char *>();
           Serial.println(soda);
+
+          //##################################
+          //Hier komt de code voor het inschenken van een shotje
+          //##################################
           
         }else{
+          //Als er geen glas staat - foutmelding.
+          //Moet in eerste instantie niet op deze pagina kunnen komen, maar als soort extra beveiliging
           Serial.println("Zet eerst een glas neer");
         }
       }
@@ -107,7 +124,7 @@ void onWebSocketEvent(uint8_t client_num,WStype_t type,uint8_t * payload, size_t
       
       break;
 
-    // For everything else: do nothing
+    //Voor alle andere callback functies gebeurt niets.
     case WStype_BIN:
     case WStype_ERROR:
     case WStype_FRAGMENT_TEXT_START:
@@ -258,7 +275,7 @@ void onFantaRequest(AsyncWebServerRequest *request){
   request->send(SPIFFS, "/img/fanta.png", "image/png");
 }
 
-// Callback: send 404 if requested file does not exist
+// 404: als pagina niet kan vinden
 void onPageNotFound(AsyncWebServerRequest *request) {
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
@@ -271,10 +288,10 @@ void onPageNotFound(AsyncWebServerRequest *request) {
  */
 
 void setup() {
-  // Start Serial port
+  //Start seriele verbinding
   Serial.begin(115200);
 
-  // Make sure we can read the file system
+  // Kijkt of SPIFFS benaderd kan worden
   if( !SPIFFS.begin()){
     Serial.println("Error mounting SPIFFS");
     while(1);
@@ -283,7 +300,7 @@ void setup() {
   // Start access point
   WiFi.softAP(ssid, password);
 
-  // Print our IP address
+  // Print het ip adres van acces point
   Serial.println();
   Serial.println("AP running");
   Serial.print("My IP address: ");
@@ -312,13 +329,13 @@ void setup() {
   server.on("/img/cola.png", onColaRequest);
   server.on("/img/fanta.png", onFantaRequest);
 
-  // Handle requests for pages that do not exist
+  // Als pagina niet kan vinden
   server.onNotFound(onPageNotFound);
 
   // Start web server
   server.begin();
 
-  // Start WebSocket server and assign callback
+  // Start websocket server en verwijst door naar callback functies
   webSocket.begin();
   webSocket.onEvent(onWebSocketEvent);  
   
@@ -326,6 +343,6 @@ void setup() {
 
 void loop() {
   
-  // Look for and handle WebSocket data
+  // Zorgt dat websocket data steeds afgehandeld wordt
   webSocket.loop();
 }
