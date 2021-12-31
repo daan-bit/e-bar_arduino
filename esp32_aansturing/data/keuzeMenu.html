@@ -5,11 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
     <title>E-bar</title>
 </head>
 <body class="body">
     <main class="main main--keuzeMenu">
         <div class="main__overlay"></div>
+        <section class="main--keuzeMenu__randomButtonContainer">
+            <button class="randomButtonContainer__btn"><img class="btn__random" src="./img/random.png" alt="foto shuffle" onclick="randomMix()"></button>
+        </section>
         <section class="main--keuzeMenu__buttonContainer">
             <button class="buttonContainer__button buttonContainer__button--keuzeMenu" onclick="location.href='kiesMix'">Kies je mixdrank</button>
             <button class="buttonContainer__button buttonContainer__button--keuzeMenu ghost" onclick="location.href='kiesDrank'">Drankje samenstellen</button>

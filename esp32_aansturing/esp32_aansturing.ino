@@ -275,6 +275,13 @@ void onFantaRequest(AsyncWebServerRequest *request){
   request->send(SPIFFS, "/img/fanta.png", "image/png");
 }
 
+void onRandomRequest(AsyncWebServerRequest *request){
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] [img] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/img/random.png", "image/png");
+}
+
 // 404: als pagina niet kan vinden
 void onPageNotFound(AsyncWebServerRequest *request) {
   IPAddress remote_ip = request->client()->remoteIP();
@@ -328,6 +335,7 @@ void setup() {
   server.on("/img/rocket.png", onRocketRequest);
   server.on("/img/cola.png", onColaRequest);
   server.on("/img/fanta.png", onFantaRequest);
+  server.on("/img/random.png", onRandomRequest);
 
   // Als pagina niet kan vinden
   server.onNotFound(onPageNotFound);

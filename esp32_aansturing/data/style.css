@@ -421,6 +421,34 @@ button{
     flex-direction: column;
 }
 
+.main--keuzeMenu__randomButtonContainer{
+    width: 100%;
+    height: 10rem;
+    position: absolute;
+    top:0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 1rem;
+}
+
+.randomButtonContainer__btn{
+    border-style: none;
+    padding: 0.5rem;
+    width: 6rem;
+    height: 6rem;
+    background-color: #73377E;
+}
+
+.btn__random{
+    width: 100%;
+    height: 100%;
+}
+
+.btn__random:active{
+    background-color: #9e4cad;
+}
+
 .main--keuzeMenu__buttonContainer{
     width: 85%;
     position: relative;
