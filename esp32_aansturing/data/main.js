@@ -134,6 +134,16 @@ function changeText(){
 }
 
 
+//Game kingsen
+function gotKing(){
+    doSend(JSON.stringify({device: "king", reset: 'false'}));
+}
+
+function resetGame(){
+    doSend(JSON.stringify({device: "king", reset: 'true'}));
+}
+
+
 //##########################################################################
 // Alle code behorend bij de websockets ####################################
 //##########################################################################
