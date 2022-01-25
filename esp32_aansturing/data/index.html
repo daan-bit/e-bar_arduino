@@ -12,8 +12,9 @@
     <main class="main">
         <div class="main__overlay"></div>
         <section class="main__contentWrapper">
-            <h1 class="contentWrapper__title">Welkom</h1>
-            <p class="contentWrapper__text">Zet je glas neer om te beginnen</p>
+            <h1 class="contentWrapper__title" style="text-align: center;">Welkom</h1>
+            <!-- <p class="contentWrapper__text">Zet je glas neer om te beginnen</p> -->
+            <button class="buttonContainer__button buttonContainer__button--keuzeMenu" style="max-width: 600px;" onclick='doSend("{ \"device\": \"topi\", \"detect\": true }");this.style.display = "none";setTimeout((function () {this.style.display = "block";document.querySelector(".contentWrapper__title").innerText = "Welkom";}).bind(this), 20000);document.querySelector(".contentWrapper__title").innerText = "Glas detecteren... Even wachten.";'>Detecteer glas</button>
         </section>
     </main>
 </body>

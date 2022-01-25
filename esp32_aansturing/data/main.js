@@ -178,10 +178,23 @@ function onMessage(evt) {
     switch(evt.data) {
         case "0":
             console.log("Naar afgehandeld pagina");
+            window.location = "/afgehandeld";
+            break;
         case "1":
             console.log("Naar foutmelding pagina");
+            window.location = "/foutmelding";
+            break;
+        case "home":
+            console.log("Naar home pagina");
+            window.location = "/";
+            break;
+        case "shot":
+            console.log("Naar kiesShot pagina");
+            window.location = "/kiesShot";
+            break;
         case "redirect":
             window.location = "/keuzeMenu";
+            break;
         default:
             break;
     }
