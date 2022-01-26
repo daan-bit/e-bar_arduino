@@ -136,11 +136,11 @@ function changeText(){
 
 //Game kingsen
 function gotKing(){
-    doSend(JSON.stringify({device: "king", reset: 'false'}));
+    doSend(JSON.stringify({ device: "king", reset: false }));
 }
 
 function resetGame(){
-    doSend(JSON.stringify({device: "king", reset: 'true'}));
+    doSend(JSON.stringify({ device: "king", reset: true }));
 }
 
 
@@ -168,6 +168,11 @@ function wsConnect(url){
 //Als client verbind
 function onOpen(evt) {
     console.log("Connected");
+    // let sstr = window.location.href.substring(window.location.href - 2); // Get the last 2 characters
+    // if (sstr == "ki") {
+    //     console.log("Kingsen!!");
+    //     websocket.send(JSON.stringify({ device: 'iking' }));
+    // }
 }
 
 //Als client niet meer verbonden is

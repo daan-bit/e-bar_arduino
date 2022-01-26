@@ -124,7 +124,7 @@ drinks_t drinks[] = {
 
 uint8_t steps_per_mm = 90; // Preconfigured
 
-uint16_t glass_ml = 460;
+uint16_t glass_ml = 300;
 
 int stepperPos = 0;
 int stepperStepsLeft = 0;
@@ -169,9 +169,9 @@ void setup() {
   servo2.setPeriodHertz(50);    // standard 50 hz servo
   servo2.attach(SERVO_PIN_2, 500, 2500);
   servo3.setPeriodHertz(50);    // standard 50 hz servo
-  servo3.attach(SERVO_PIN_3, 500, 2500);
+  servo3.attach(SERVO_PIN_3, 400, 2600);
   servo4.setPeriodHertz(50);    // standard 50 hz servo
-  servo4.attach(SERVO_PIN_4, 500, 2500);
+  servo4.attach(SERVO_PIN_4, 400, 2600);
 
   Serial.println("Configuring all pumps");
   pinMode(PUMP_PIN_1, OUTPUT);
@@ -236,18 +236,22 @@ void setup() {
   server.on("/foutmelding", HTTP_GET, onFoutmeldingRequest);
   server.on("/kiesShot", HTTP_GET, onKiesShotRequest);
   server.on("/pi", HTTP_GET, onPiRequest);
+  server.on("/games", HTTP_GET, onGamesRequest);
+  server.on("/Games/ki", HTTP_GET, onGameKingRequest);
 
   // Ophalen css / js / afbeeldingen
   server.on("/style.css", HTTP_GET, onCSSRequest);
   server.on("/main.js", HTTP_GET, onJSRequest);
-  server.on("/img/achtergrond.jpg", onAchtergrondRequest);
-  server.on("/img/bacardi.png", onBacardiRequest);
-  server.on("/img/malibu.png", onMalibuRequest);
-  server.on("/img/vodka.png", onVodkaRequest);
-  server.on("/img/rocket.png", onRocketRequest);
-  server.on("/img/cola.png", onColaRequest);
-  server.on("/img/fanta.png", onFantaRequest);
-  server.on("/img/random.png", onRandomRequest);
+  server.on("/img/achtergrond.webp", onAchtergrondRequest);
+  server.on("/img/bacardi.webp", onBacardiRequest);
+  server.on("/img/malibu.webp", onMalibuRequest);
+  server.on("/img/vodka.webp", onVodkaRequest);
+  server.on("/img/rocket.webp", onRocketRequest);
+  server.on("/img/cola.webp", onColaRequest);
+  server.on("/img/fanta.webp", onFantaRequest);
+  server.on("/img/random.webp", onRandomRequest);
+  server.on("/img/reset.webp", onResetRequest);
+  server.on("/img/king.webp", onKingRequest);
 
   // Als pagina niet kan vinden
   server.onNotFound(onPageNotFound);
@@ -276,6 +280,11 @@ void setup() {
       webSocket.loop();
     }
   }
+
+  // Temp
+  disableCore0WDT();
+  disableCore1WDT();
+  disableLoopWDT();
 }
 
 bool cmpDrinks(drinks_t *d1, drinks_t *d2) {
@@ -398,7 +407,7 @@ void loop() {
       argNum = 1;
     } else if (stepperPos == stepperAbsPos(STPP_STEPPER_DISPENSER_POS_2) && currentDrink.deviceNum == 2) {
       currentPos[1] = rotate(&servo2, SERVO_POS_MAX, currentPos[1], 20);
-      delay(1000);
+      delay(1100);
       currentPos[1] = rotate(&servo2, SERVO_POS_IDLE, currentPos[1], 20);
       currentDrink = nextDrink;
       nextDrink = drink_NONE;
@@ -408,8 +417,8 @@ void loop() {
       argNum = 2;
     } else if (stepperPos == stepperAbsPos(STPP_STEPPER_DISPENSER_POS_3) && currentDrink.deviceNum == 3) {
       currentPos[2] = rotate(&servo3, SERVO_POS_MIN, currentPos[2], 20);
-      delay(1000);
-      currentPos[2] = rotate(&servo3, 180 - SERVO_POS_IDLE, currentPos[2], 20);
+      delay(1300);
+      currentPos[2] = rotate(&servo3, 180 - SERVO_POS_MIN, currentPos[2], 20);
       currentDrink = nextDrink;
       nextDrink = drink_NONE;
     } else if (currentDrink.deviceNum == 3) {
@@ -419,8 +428,8 @@ void loop() {
     } else if (stepperPos == stepperAbsPos(STPP_STEPPER_DISPENSER_POS_4) && currentDrink.deviceNum == 4) {
       Serial.println("Start moving servo");
       currentPos[3] = rotate(&servo4, SERVO_POS_MIN, currentPos[3], 20);
-      delay(1000);
-      currentPos[3] = rotate(&servo4, 180 - SERVO_POS_IDLE, currentPos[3], 20);
+      delay(1300);
+      currentPos[3] = rotate(&servo4, 180 - SERVO_POS_MIN, currentPos[3], 20);
       currentDrink = nextDrink;
       nextDrink = drink_NONE;
     } else if (currentDrink.deviceNum == 4) {
@@ -541,30 +550,35 @@ void loop() {
       break;
     case 5:
       Serial.println("Pump 1");
-      for (uint16_t i = 0; i < PUMP_MS_PER_ML * glass_ml / 40; i++) {
-        // digitalWrite(PUMP_PIN_1, HIGH);
-        // delay(1000);
-        // digitalWrite(PUMP_PIN_1, LOW);
+      stepper.disable();
+      for (uint16_t i = 0; i < PUMP_MS_PER_ML * glass_ml / 30; i++) {
         analogWrite(PUMP_PIN_1, 255);
         delay(20);
         analogWrite(PUMP_PIN_1, 100);
-        delay(20);
+        delay(10);
       }
       analogWrite(PUMP_PIN_1, 0);
+      // digitalWrite(PUMP_PIN_1, HIGH);
+      // delay(PUMP_MS_PER_ML * glass_ml);
+      // digitalWrite(PUMP_PIN_1, LOW);
+      stepper.enable();
+      // analogWrite(PUMP_PIN_1, 0);
       Serial.println("Pump 1 end");
       break;
     case 6: // Pump 2
       Serial.println("Pump 2");
-      for (uint16_t i = 0; i < PUMP_MS_PER_ML * glass_ml / 40; i++) {
-        // digitalWrite(PUMP_PIN_2, HIGH);
-        // delay(1000);
-        // digitalWrite(PUMP_PIN_2, LOW);
+      stepper.disable();
+      for (uint16_t i = 0; i < PUMP_MS_PER_ML * glass_ml / 30; i++) {
         analogWrite(PUMP_PIN_2, 255);
         delay(20);
         analogWrite(PUMP_PIN_2, 100);
-        delay(20);
+        delay(10);
       }
       analogWrite(PUMP_PIN_2, 0);
+      // digitalWrite(PUMP_PIN_2, HIGH);
+      // delay(PUMP_MS_PER_ML * glass_ml);
+      // digitalWrite(PUMP_PIN_2, LOW);
+      stepper.enable();
       Serial.println("Pump 2 end");
       // Serial.println("Stepper move");
       // Serial.print("Stepper move this much: ");
@@ -816,7 +830,6 @@ void onWebSocketEvent(uint8_t client_num,WStype_t type,uint8_t * payload, size_t
       device = doc["device"].as<const char *>();
       Serial.println("Device: ");
       Serial.println(device);
-      Serial.println(strcmp(device, "topi"));
 
       //Als de raspberry pi een bericht stuurt
       if(strcmp(device, "raspberry") == 0){
@@ -906,6 +919,51 @@ void onWebSocketEvent(uint8_t client_num,WStype_t type,uint8_t * payload, size_t
       } else if (strcmp(device, "topi") == 0) {
         Serial.println("!!!!! DETECT GLASS !!!!!");
         webSocket.broadcastTXT("{ \"detect\": true }");
+      } else if (strcmp(device, "king") == 0) {
+        bool reset = doc["reset"].as<bool>();
+
+        if (reset) {
+          // Naar het begin toe en pagina naar home
+          webSocket.broadcastTXT("home");
+        } else {
+          // Volgende shot
+          if (stepperPos == stepperAbsPos(STPP_STEPPER_HOME)) {
+            actions = true;
+            deviceNum = 7;
+            argNum = 1;
+          } else if (stepperPos == stepperAbsPos(STPP_STEPPER_DISPENSER_POS_1)) {
+            currentPos[0] = rotate(&servo1, SERVO_POS_MAX, currentPos[0], 20);
+            delay(1000);
+            currentPos[0] = rotate(&servo1, SERVO_POS_IDLE, currentPos[0], 20);
+            actions = true;
+            deviceNum = 7;
+            argNum = 2;
+          } else if (stepperPos == stepperAbsPos(STPP_STEPPER_DISPENSER_POS_2)) {
+            currentPos[1] = rotate(&servo2, SERVO_POS_MAX, currentPos[1], 20);
+            delay(1000);
+            currentPos[1] = rotate(&servo2, SERVO_POS_IDLE, currentPos[1], 20);
+            actions = true;
+            deviceNum = 7;
+            argNum = 3;
+          } else if (stepperPos == stepperAbsPos(STPP_STEPPER_DISPENSER_POS_3)) {
+            currentPos[2] = rotate(&servo3, SERVO_POS_MIN, currentPos[2], 20);
+            delay(1000);
+            currentPos[2] = rotate(&servo3, 180 - SERVO_POS_IDLE, currentPos[2], 20);
+            actions = true;
+            deviceNum = 7;
+            argNum = 4;
+          } else if (stepperPos == stepperAbsPos(STPP_STEPPER_DISPENSER_POS_4)) {
+            Serial.println("Start moving servo");
+            currentPos[3] = rotate(&servo4, SERVO_POS_MIN, currentPos[3], 20);
+            delay(1000);
+            currentPos[3] = rotate(&servo4, 180 - SERVO_POS_IDLE, currentPos[3], 20);
+            actions = true;
+            deviceNum = 7;
+            argNum = 0;
+            // Go back to home
+            webSocket.broadcastTXT("0");
+          }
+        }
       }
       // }else if (strcmp(device, "shot") == 0){
       //   if(aanwezig == true){
@@ -1016,6 +1074,20 @@ void onPiRequest(AsyncWebServerRequest *request){
   request->send(SPIFFS, "/pi.html", "text/html");
 }
 
+void onGamesRequest(AsyncWebServerRequest *request){
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] [ks] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/games.html", "text/html");
+}
+
+void onGameKingRequest(AsyncWebServerRequest *request){
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] [ks] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/ki.html", "text/html");
+}
+
 // Ophalen css / js / afbeeldingen
 // #############################################################################
 
@@ -1037,56 +1109,70 @@ void onAchtergrondRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/achtergrond.jpg", "image/jpg");
+  request->send(SPIFFS, "/img/achtergrond.webp", "image/jpg");
 }
 
 void onBacardiRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/bacardi.png", "image/png");
+  request->send(SPIFFS, "/img/bacardi.webp", "image/webp");
 }
 
 void onMalibuRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/malibu.png", "image/png");
+  request->send(SPIFFS, "/img/malibu.webp", "image/webp");
 }
 
 void onVodkaRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/vodka.png", "image/png");
+  request->send(SPIFFS, "/img/vodka.webp", "image/webp");
 }
 
 void onRocketRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/rocket.png", "image/png");
+  request->send(SPIFFS, "/img/rocket.webp", "image/webp");
 }
 
 void onColaRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/cola.png", "image/png");
+  request->send(SPIFFS, "/img/cola.webp", "image/webp");
 }
 
 void onFantaRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/fanta.png", "image/png");
+  request->send(SPIFFS, "/img/fanta.webp", "image/webp");
 }
 
 void onRandomRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/random.png", "image/png");
+  request->send(SPIFFS, "/img/random.webp", "image/webp");
+}
+
+void onResetRequest(AsyncWebServerRequest *request){
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] [img] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/img/reset.webp", "image/webp");
+}
+
+void onKingRequest(AsyncWebServerRequest *request){
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] [img] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/img/king.webp", "image/webp");
 }
 
 // 404: als pagina niet kan vinden
