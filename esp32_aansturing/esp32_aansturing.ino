@@ -238,6 +238,7 @@ void setup() {
   server.on("/pi", HTTP_GET, onPiRequest);
   server.on("/games", HTTP_GET, onGamesRequest);
   server.on("/Games/ki", HTTP_GET, onGameKingRequest);
+  server.on("/Games/spelregels_ki", HTTP_GET, onGameSpelregelsKiRequest);
 
   // Ophalen css / js / afbeeldingen
   server.on("/style.css", HTTP_GET, onCSSRequest);
@@ -252,6 +253,7 @@ void setup() {
   server.on("/img/random.webp", onRandomRequest);
   server.on("/img/reset.webp", onResetRequest);
   server.on("/img/king.webp", onKingRequest);
+  server.on("/img/games.webp", onGamesImageRequest);
 
   // Als pagina niet kan vinden
   server.onNotFound(onPageNotFound);
@@ -1000,6 +1002,20 @@ void onWebSocketEvent(uint8_t client_num,WStype_t type,uint8_t * payload, size_t
   }
 }
 
+int changeLeds() {
+  // Your Domain name with URL path or IP address with path
+  // http.begin("");
+
+  // // Specify content-type header
+  // http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  // // Data to send with HTTP POST
+  // String httpRequestData = "api_key=tPmAT5Ab3j7F9&sensor=BME280&value1=24.25&value2=49.54&value3=1005.14";
+
+  // // Send HTTP POST request
+  // int httpResponseCode = http.POST(httpRequestData);
+}
+
 
 // ophalen webpagina's 
 // #############################################################################
@@ -1085,7 +1101,14 @@ void onGameKingRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [ks] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/ki.html", "text/html");
+  request->send(SPIFFS, "/Games/ki.html", "text/html");
+}
+
+void onGameSpelregelsKiRequest(AsyncWebServerRequest *request) {\
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] [ks] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/Games/spelregels_ki.html", "text/html");
 }
 
 // Ophalen css / js / afbeeldingen
@@ -1173,6 +1196,13 @@ void onKingRequest(AsyncWebServerRequest *request){
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
   request->send(SPIFFS, "/img/king.webp", "image/webp");
+}
+
+void onGamesImageRequest(AsyncWebServerRequest *request){
+  IPAddress remote_ip = request->client()->remoteIP();
+  Serial.println("[" + remote_ip.toString() +
+                  "] [img] HTTP GET request of " + request->url());
+  request->send(SPIFFS, "/img/games.webp", "image/webp");
 }
 
 // 404: als pagina niet kan vinden
