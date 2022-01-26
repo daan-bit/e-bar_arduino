@@ -482,42 +482,114 @@ button{
 
 
 /* King pagina */
+.main--king{
+}
+
+.main__contentWrapper--king{
+    
+}
+
 .main--keuzeMenu__randomButtonContainer--reset{
     justify-content: flex-end;
 }
 
-
-.logo__figure--ki{
-    height: 50%;
+.main__gameContent{
+    height: 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    transform: translateY(20%);
+    flex-direction: column;
+}
+
+.logo__figure--ki{
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .figure__img--ki{
-    border-radius: 1rem;
-    height: 90%;
-    border: 1px solid;
-    padding: 10px;
+    height: auto;
     box-shadow: 5px 10px #888888;
 }
 
 .figure__img--ki:active{
-    background-color: #888888;
-    box-shadow: none;
-}
+    box-shadow: 0px 0px #888;
+    transform: scale(90%);
+} 
 
 .main--keuzeMenu__buttonContainer--king{
     width: 100%;
     height: 10rem;
-    transform: translateY(-40%);
+    margin-bottom: 4rem;
 }
 
 .buttonContainer__button--king{
-    width: 80%;
-    
+    width: 80%; 
 }
+
+/* Spelregels pagina */
+
+
+.main__contentWrapper--regels{
+    justify-content: flex-end;
+    padding-bottom: 2rem;
+}
+
+.spelregels__backgroundOverlay{
+    width: 90%;
+    height: 85%;
+    background-color: #202020;
+    position: absolute;
+    opacity: 0.6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.spelregels__content{
+    position: relative;
+    width: 90%;
+    height: 90%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 1rem;
+}
+
+.spelregels__titleContainer{
+    width: 100%;
+    height: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spelregels__title{
+    font-weight: 400;
+    font-size: 3.5rem;
+}
+
+.spelregels__regelsContainer{
+    width: 100%;
+    height: auto;
+    padding-left: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.regelsContainer__text{
+    font-size: 2.4rem;
+}
+
+
+
+
 
 
 
