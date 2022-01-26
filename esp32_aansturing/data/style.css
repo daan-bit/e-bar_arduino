@@ -587,6 +587,11 @@ button{
     font-size: 2.4rem;
 }
 
+.btn__close{
+    width: 90%;
+    height: 90%;
+}
+
 
 
 
