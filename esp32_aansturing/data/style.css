@@ -530,38 +530,39 @@ button{
 }
 
 /* Spelregels pagina */
-
+.body--regels{
+    height: auto;
+}
 
 .main__contentWrapper--regels{
-    justify-content: flex-end;
     padding-bottom: 2rem;
 }
 
-.spelregels__backgroundOverlay{
-    width: 90%;
-    height: 85%;
-    background-color: #202020;
-    position: absolute;
-    opacity: 0.6;
+.main--keuzeMenu__randomButtonContainer--king{
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 10rem;
+    position: relative;
+    padding-right: 1rem;
+}
+
+.btn__close{
+    width: 90%;
+    height: 90%;
 }
 
 .spelregels__content{
     position: relative;
-    width: 90%;
-    height: 90%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    width: 100%;
+    height: 100%;
     flex-direction: column;
-    padding-top: 1rem;
 }
 
 .spelregels__titleContainer{
     width: 100%;
-    height: 10rem;
+    padding: 2.2rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -575,7 +576,7 @@ button{
 .spelregels__regelsContainer{
     width: 100%;
     height: auto;
-    padding-left: 1rem;
+    padding-left: 1.5rem;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -587,10 +588,7 @@ button{
     font-size: 2.4rem;
 }
 
-.btn__close{
-    width: 90%;
-    height: 90%;
-}
+
 
 
 
