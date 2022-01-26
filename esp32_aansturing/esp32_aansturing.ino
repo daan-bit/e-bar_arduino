@@ -237,21 +237,21 @@ void setup() {
   server.on("/kiesShot", HTTP_GET, onKiesShotRequest);
   server.on("/pi", HTTP_GET, onPiRequest);
   server.on("/games", HTTP_GET, onGamesRequest);
-  server.on("/ki", HTTP_GET, onGameKingRequest);
+  server.on("/Games/ki", HTTP_GET, onGameKingRequest);
 
   // Ophalen css / js / afbeeldingen
   server.on("/style.css", HTTP_GET, onCSSRequest);
   server.on("/main.js", HTTP_GET, onJSRequest);
-  server.on("/img/achtergrond.jpg", onAchtergrondRequest);
-  server.on("/img/bacardi.png", onBacardiRequest);
-  server.on("/img/malibu.png", onMalibuRequest);
-  server.on("/img/vodka.png", onVodkaRequest);
-  server.on("/img/rocket.png", onRocketRequest);
-  server.on("/img/cola.png", onColaRequest);
-  server.on("/img/fanta.png", onFantaRequest);
-  server.on("/img/random.png", onRandomRequest);
-  server.on("/img/reset.png", onResetRequest);
-  server.on("/img/king.jpg", onKingRequest);
+  server.on("/img/achtergrond.webp", onAchtergrondRequest);
+  server.on("/img/bacardi.webp", onBacardiRequest);
+  server.on("/img/malibu.webp", onMalibuRequest);
+  server.on("/img/vodka.webp", onVodkaRequest);
+  server.on("/img/rocket.webp", onRocketRequest);
+  server.on("/img/cola.webp", onColaRequest);
+  server.on("/img/fanta.webp", onFantaRequest);
+  server.on("/img/random.webp", onRandomRequest);
+  server.on("/img/reset.webp", onResetRequest);
+  server.on("/img/king.webp", onKingRequest);
 
   // Als pagina niet kan vinden
   server.onNotFound(onPageNotFound);
@@ -1109,70 +1109,70 @@ void onAchtergrondRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/achtergrond.jpg", "image/jpg");
+  request->send(SPIFFS, "/img/achtergrond.webp", "image/jpg");
 }
 
 void onBacardiRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/bacardi.png", "image/png");
+  request->send(SPIFFS, "/img/bacardi.webp", "image/webp");
 }
 
 void onMalibuRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/malibu.png", "image/png");
+  request->send(SPIFFS, "/img/malibu.webp", "image/webp");
 }
 
 void onVodkaRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/vodka.png", "image/png");
+  request->send(SPIFFS, "/img/vodka.webp", "image/webp");
 }
 
 void onRocketRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/rocket.png", "image/png");
+  request->send(SPIFFS, "/img/rocket.webp", "image/webp");
 }
 
 void onColaRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/cola.png", "image/png");
+  request->send(SPIFFS, "/img/cola.webp", "image/webp");
 }
 
 void onFantaRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/fanta.png", "image/png");
+  request->send(SPIFFS, "/img/fanta.webp", "image/webp");
 }
 
 void onRandomRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/random.png", "image/png");
+  request->send(SPIFFS, "/img/random.webp", "image/webp");
 }
 
 void onResetRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/reset.png", "image/png");
+  request->send(SPIFFS, "/img/reset.webp", "image/webp");
 }
 
 void onKingRequest(AsyncWebServerRequest *request){
   IPAddress remote_ip = request->client()->remoteIP();
   Serial.println("[" + remote_ip.toString() +
                   "] [img] HTTP GET request of " + request->url());
-  request->send(SPIFFS, "/img/king.jpg", "image/png");
+  request->send(SPIFFS, "/img/king.webp", "image/webp");
 }
 
 // 404: als pagina niet kan vinden
